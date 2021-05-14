@@ -41,10 +41,14 @@ export const EventList = (props) => {
                             &nbsp;@ {getDateTime(event.date).toTimeString()}
                             {console.log(event.id)}
                         </div>
-                        { 
-                            <button className="btn btn-2"
-                            onClick={() => joinEvent(event.id)}
-                            >Join</button>
+                        {
+                            event.joined
+                                ? <button className="btn btn-3"
+                                    onClick={() => leaveEvent(event.id)}
+                                    >Leave</button>
+                                : <button className="btn btn-2"
+                                    onClick={() => joinEvent(event.id)}
+                                    >Join</button>
                         }
                     </section>
                 })
