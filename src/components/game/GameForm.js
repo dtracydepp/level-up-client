@@ -110,7 +110,7 @@ export const GameForm = () => {
             </fieldset>
            <fieldset>
                 <div className="form-group">
-                {/* <label htmlFor="gameTypeId">Game Type: </label> */}
+                <label htmlFor="gameTypeId">Game Type: </label>
                 <select id="gameTypeId" className="form-control" 
                 onChange={changeGameTypeState}>
                     <option value="0" htmlFor="gameType">Select a game type</option>
