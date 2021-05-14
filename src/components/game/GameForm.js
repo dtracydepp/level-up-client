@@ -118,7 +118,8 @@ export const GameForm = () => {
                         <option key={gameType.id} value={gameType.id}>
                             {gameType.label}
                     </option>
-                    ))}
+                    ))
+                    }
                 </select>
                 </div>
             </fieldset>

@@ -1,8 +1,11 @@
 import React, { useContext, useEffect } from "react"
+import { useHistory } from "react-router-dom"
 import { EventContext } from "./EventProvider.js"
+
 
 export const EventList = (props) => {
     const { events, getEvents } = useContext(EventContext)
+    const history = useHistory()
 
     useEffect(() => {
         getEvents()
@@ -12,6 +15,14 @@ export const EventList = (props) => {
     const getDateTime = (date) => new Date(date)
 
     return (
+
+        <>
+        <button className="btn btn-2 btn-sep icon-create"
+            onClick={() => {
+                history.push({ pathname: "/events/new" })
+            }}
+                >Create New Event</button>
+
         <article className="events">
             <header className="events__header">
                 <h1>Level Up Game Events</h1>
@@ -37,5 +48,6 @@ export const EventList = (props) => {
                 })
             }
         </article >
+    </>
     )
 }
