@@ -64,7 +64,7 @@ export const GameForm = () => {
 
     const changeGameTypeState = (event) => {
         const newGameState = { ...currentGame }
-        newGameState.game_type_id = event.target.value
+        newGameState.gameTypeId = event.target.value
         setCurrentGame(newGameState)
     }
     /* REFACTOR CHALLENGE END */
@@ -110,20 +110,21 @@ export const GameForm = () => {
             </fieldset>
            <fieldset>
                 <div className="form-group">
-                <label htmlFor="game_type_id">Game Type: </label>
-                <select value={currentGame.game_type_id} id="game_type" className="form-control" 
+                {/* <label htmlFor="gameTypeId">Game Type: </label> */}
+                <select id="gameTypeId" className="form-control" 
                 onChange={changeGameTypeState}>
-                    <option value="0">Select a game type</option>
-                        {gameTypes.map(gameType => (
-                        <option key={gameType.id} value={gameType.id}>
-                            {gameType.label}
+                    <option value="0" htmlFor="gameType">Select a game type</option>
+                        {gameTypes.map(gameType => {
+                            {console.log(gameType)}
+                         return<option key={gameType.id} value={gameType.id}>
+                            {gameType.title}
                     </option>
-                    ))
+                        })
                     }
                 </select>
                 </div>
             </fieldset>
-
+                   
             {/* You create the rest of the input fields for each game property */}
 
             <button type="submit"
@@ -141,7 +142,7 @@ export const GameForm = () => {
 
                     // Send POST request to your API
                     createGame(game)
-                        .then(() => history.push("/games"))
+                        .then(() => history.push("/"))
                 }}
                 className="btn btn-primary">Create</button>
         </form>
