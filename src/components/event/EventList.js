@@ -25,7 +25,7 @@ export const EventList = (props) => {
             {
                 events.map(event => {
                     return <section key={event.id} className="registration">
-                        {console.log(event)}
+                        {/* {console.log(event)} */}
                         <div className="registration__game">{event.game.title}</div>
                         <div>{event.description}</div>
                         <div>
@@ -39,7 +39,7 @@ export const EventList = (props) => {
                                 })
                             }
                             &nbsp;@ {getDateTime(event.date).toTimeString()}
-                            {console.log(event.id)}
+                            {/* {console.log(event.id)} */}
                         </div>
                         {
                             event.joined
