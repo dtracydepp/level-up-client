@@ -1,11 +1,12 @@
 import React, { useContext, useState, useEffect } from "react"
 import { GameContext } from "./GameProvider.js"
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 
 
 export const GameForm = () => {
     const history = useHistory()
-    const { createGame, getGameTypes, gameTypes } = useContext(GameContext)
+    const { createGame, getGameTypes, gameTypes, getGame, updateGame } = useContext(GameContext)
+    const { gameId = null } = useParams()
 
     /*
         Since the input fields are bound to the values of
@@ -28,7 +29,21 @@ export const GameForm = () => {
         getGameTypes()
     }, [])
 
+    useEffect(() => {
+        if (gameId != null) {
+            getGame(gameId).then(setCurrentGame)
+        }
+    }, [])
+
+
+
+
+
     /*
+
+
+
+
         REFACTOR CHALLENGE START
 
         Can you refactor this code so that all property
@@ -81,7 +96,7 @@ export const GameForm = () => {
                     />
                 </div>
             </fieldset>
-             <fieldset>
+            <fieldset>
                 <div className="form-group">
                     <label htmlFor="maker">Maker of Game: </label>
                     <input type="text" name="maker" required autoFocus className="form-control"
@@ -92,39 +107,38 @@ export const GameForm = () => {
             </fieldset>
             <fieldset>
                 <div className="form-group">
-                    <label htmlFor="skill_level">Skill Level: </label>
-                    <input type="text" name="skill_level" required autoFocus className="form-control"
-                        value={currentGame.skill_level}
+                    <label htmlFor="skillLevel">Skill Level: </label>
+                    <input type="text" name="skillLevel" required autoFocus className="form-control"
+                        value={currentGame.skillLevel}
                         onChange={changeGameSkillLevelState}
                     />
                 </div>
             </fieldset>
             <fieldset>
                 <div className="form-group">
-                    <label htmlFor="number_of_players">Number of Players: </label>
-                    <input type="text" name="number_of_players" required autoFocus className="form-control"
-                        value={currentGame.number_of_players}
+                    <label htmlFor="numberOfPlayers">Number of Players: </label>
+                    <input type="text" name="nameOfPlayers" required autoFocus className="form-control"
+                        value={currentGame.numberOfPlayers}
                         onChange={changeGamePlayersState}
                     />
                 </div>
             </fieldset>
-           <fieldset>
+            <fieldset>
                 <div className="form-group">
-                <label htmlFor="gameTypeId">Game Type: </label>
-                <select id="gameTypeId" className="form-control" 
-                onChange={changeGameTypeState}>
-                    <option value="0" htmlFor="gameType">Select a game type</option>
-                        {gameTypes.map(gameType => {
-                            {console.log(gameType)}
-                         return<option key={gameType.id} value={gameType.id}>
-                            {gameType.title}
-                    </option>
-                        })
-                    }
-                </select>
+                <label htmlFor="gameTypeId">Type of Game: </label>
+                <select name="gameTypeId" onChange={changeGameTypeState} value={currentGame.gameType}>
+                        <option value="0">Select a type</option>
+                        {
+                            gameTypes.map(gameType =>{
+                                return <option key={gameType.id} value={gameType.id}>{gameType.title}</option>
+                             })
+                        }
+                    </select>
+                    
+                   
                 </div>
             </fieldset>
-                   
+
             {/* You create the rest of the input fields for each game property */}
 
             <button type="submit"
@@ -136,13 +150,18 @@ export const GameForm = () => {
                         title: currentGame.title,
                         maker: currentGame.maker,
                         skillLevel: currentGame.skillLevel,
-                        numberOfPlayers: parseInt(currentGame.numberOfPlayers),  
+                        numberOfPlayers: parseInt(currentGame.numberOfPlayers),
                         gameTypeId: parseInt(currentGame.gameTypeId)
                     }
 
-                    // Send POST request to your API
-                    createGame(game)
-                        .then(() => history.push("/"))
+                    if (gameId) {
+                        game.id = gameId
+                        updateGame(game).then(() => history.push('/'))
+                    } else {
+                        // Send POST request to your API
+                        createGame(game)
+                            .then(() => history.push("/"))
+                    }
                 }}
                 className="btn btn-primary">Create</button>
         </form>
